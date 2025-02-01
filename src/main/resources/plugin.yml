@@ -1,0 +1,6 @@
+name: ItemVault
+version: '1.0'
+main: io.github.lianjordaan.itemVault.ItemVault
+api-version: '1.21'
+authors: [ Lian ]
+website: https://lianjordaan.co.za/
