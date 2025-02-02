@@ -4,3 +4,26 @@ main: io.github.lianjordaan.itemVault.ItemVault
 api-version: '1.21'
 authors: [ Lian ]
 website: https://lianjordaan.co.za/
+commands:
+  itemvault:
+    description: Manage your items
+    usage: /itemvault <add/delete/give> <itemID> | /itemvault <list/reload>
+permissions:
+  itemvault.command:
+    description: Access the item vault command
+    default: op
+  itemvault.add:
+    description: Create a new item
+    default: op
+  itemvault.delete:
+    description: Delete an item
+    default: op
+  itemvault.list:
+      description: List all items
+      default: op
+  itemvault.give:
+      description: Give an item
+      default: op
+  itemvault.reload:
+      description: Reload the plugin
+      default: op

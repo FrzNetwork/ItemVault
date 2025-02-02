@@ -1,0 +1,144 @@
+# ItemVault Configuration File
+
+# The messages section contains all the messages used by the plugin
+messages:
+    # The message sent when the player uses the /itemvault command with the wrong arguments and force-help is disabled
+    # Default: "<red>Invalid arguments. Use /itemvault help for more information."
+    invalid-arguments: "<red>Invalid arguments. Use /itemvault help for more information."
+
+    # The message sent when the player tries to add an item that already exists and allow-override is disabled
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<red>Item with ID <gold>%item_id% <red>already exists."
+    add-item-already-exists: "<red>Item with ID <gold>%item_id% <red>already exists."
+
+    # The message sent when the player added an item that already exists and allow-override is enabled and give-item-on-overwrite is disabled
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<yellow>An item with ID <gold>%item_id% <yellow>already existed. It was overridden because allow-override is enabled."
+    add-item-added-and-overriden: "<yellow>An item with ID <gold>%item_id% <yellow>already existed. It was overridden because allow-override is enabled."
+
+    # The message sent when the player added an item that already exists and allow-override is enabled and give-item-on-overwrite is enabled
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<yellow>An item with ID <gold>%item_id% <yellow>already existed. It was overridden because allow-override is enabled, however the overridden item has been given to you."
+    add-item-added-and-overriden-given: "<yellow>An item with ID <gold>%item_id% <yellow>already existed. It was overridden because allow-override is enabled, however the overridden item has been given to you."
+
+    # The message sent when the player successfully added an item
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<green>Item has been added with ID <gold>%item_id%"
+    add-item-added: "<green>Item has been added with ID <gold>%item_id%"
+
+    # The message sent when there was an error adding an item
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<red>Error adding item with ID <gold>%item_id%"
+    add-error-adding-item: "<red>Error adding item with ID <gold>%item_id%"
+
+    # The message sent when the console tries to add an item
+    # Default: "<red>Only players can add items."
+    add-console-cannot-add-items: "<red>Only players can add items."
+
+    # The message sent when the player tries to add a item without anything in their hand
+    # Default: "<red>You need to hold an item in your hand to add it."
+    add-no-item-in-hand: "<red>You need to hold an item in your hand to add it."
+
+    # The message sent when the player tries to delete an item that doesn't exist
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<red>Item with ID <gold>%item_id% <red>doesn't exist."
+    delete-item-not-found: "<red>Item with ID <gold>%item_id% <red>doesn't exist."
+
+    # The message sent when the player successfully deleted an item
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<green>Item with ID <gold>%item_id% <green>has been deleted."
+    delete-item-deleted: "<green>Item with ID <gold>%item_id% <green>has been deleted."
+
+    # The message sent when the player successfully deleted an item and give-item-on-delete is enabled
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<green>Item with ID <gold>%item_id% <green>has been deleted and given to you."
+    delete-item-deleted-and-given: "<green>Item with ID <gold>%item_id% <green>has been deleted and given to you."
+
+    # The message sent to the player when a item failed to be deleted
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<red>Error deleting item with ID <gold>%item_id%"
+    delete-error-deleting-item: "<red>Error deleting item with ID <gold>%item_id%"
+
+    # The message sent when the console tries to delete an item while give-item-on-delete is enabled
+    # Default: "<red>Console cannot delete items when give-item-on-delete is enabled."
+    delete-console-cannot-delete-items: "<red>Console cannot delete items when give-item-on-delete is enabled."
+
+    # The message sent when the player tries to give an item that doesn't exist
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<red>Item with ID <gold>%item_id% <red>doesn't exist."
+    give-item-not-found: "<red>Item with ID <gold>%item_id% <red>doesn't exist."
+
+    # The message sent when the console tries to get an item
+    # Default: "<red>Only players can get items."
+    get-console-cannot-get-items: "<red>Only players can get items."
+
+    # The message sent when the player successfully gets an item
+    # Placeholders:
+    #   %item_id% - The ID of the item
+    # Default: "<green>Item with ID <gold>%item_id% <green>has been given to you."
+    get-item-given: "<green>Item with ID <gold>%item_id% <green>has been given to you."
+
+    # The message sent when the player tries to list items, but there are no items
+    # Placeholders:
+    #   %path% - The path that was used as the argument
+    # Default: "<red>No items found in <gold>%path%"
+    list-no-items-found-path: "<red>No items found in <gold>%path%"
+
+    # The message sent when the console tries to list items
+    # Default: "<red>Only players can list items."
+    list-console-cannot-list-items: "<red>Only players can list items."
+
+    # The list of messages that will be sent when the player uses the /itemvault help command
+    # Default:
+    #   - "<green>ItemVault Commands:"
+    #   - "<gold>/itemvault add <itemID>"
+    #   - "<gold>/itemvault delete <itemID>"
+    #   - "<gold>/itemvault give <itemID>"
+    #   - "<gold>/itemvault get <itemID>"
+    #   - "<gold>/itemvault list [<path>]"
+    #   - "<gold>/itemvault reload"
+    help-messages:
+      - "<green>ItemVault Commands:"
+      - "<gold>/itemvault add <itemID>"
+      - "<gold>/itemvault delete <itemID>"
+      - "<gold>/itemvault give <itemID>"
+      - "<gold>/itemvault get <itemID>"
+      - "<gold>/itemvault list [<path>]"
+      - "<gold>/itemvault reload"
+
+
+# The itemvault commands section contains all settings for the itemvault command
+itemvault:
+    # Whether the plugin should force the player to use the help command if their arguments are invalid
+    # Default: true
+    force-help: true
+
+    # Whether the plugin should allow items with the same ID to be added, overriding the previous item
+    # Default: false
+    allow-override: false
+
+    # Whether the plugin should give the player the item if they overwrite an existing item
+    # Default: true
+    give-item-on-overwrite: true
+
+    # Whether the plugin should give the player the item if they delete an existing item
+    # Default: true
+    give-item-on-delete: true
+
+    # The title of the inventory that is shown when the /itemvault list command is used
+    # Placeholders:
+    #   %path% - The path that was used as the argument
+    #   %page% - The page number
+    #   %max_page% - The maximum page number
+    # Default: "<green>ItemVault %page%/%max_page% | <aqua>%path%"
+    list-inventory-title: "<green>ItemVault %page%/%max_page% | <aqua>%path%"

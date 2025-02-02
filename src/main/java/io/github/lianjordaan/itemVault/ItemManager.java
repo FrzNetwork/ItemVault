@@ -6,7 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class ItemManager {
 
@@ -38,13 +40,13 @@ public class ItemManager {
 
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return false;
         }
     }
 
     // Load the item from a file
-    public ItemStack loadItem(String id) {
+    public ItemStack getItem(String id) {
         // Replace "/" with the file separator and build the folder path
         String filePath = plugin.getDataFolder() + File.separator + "items" + File.separator + id.replace("/", File.separator) + ".iv";
 
@@ -58,8 +60,57 @@ public class ItemManager {
             // Deserialize the bytes back into an ItemStack
             return ItemStack.deserializeBytes(itemBytes);
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return null;
         }
     }
+
+    // Delete the item from a file
+    public boolean deleteItem(String id) {
+        // Replace "/" with the file separator and build the folder path
+        String filePath = plugin.getDataFolder() + File.separator + "items" + File.separator + id.replace("/", File.separator) + ".iv";
+
+        try {
+            // Delete the file
+            Files.deleteIfExists(Paths.get(filePath));
+
+            return true;
+        } catch (IOException e) {
+//            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<String> getItemList(String path) {
+        List<String> itemList = new ArrayList<>();
+        File baseFolder = new File(plugin.getDataFolder(), "items");
+
+        // Resolve the actual directory based on input path
+        File targetFolder = path.isEmpty() ? baseFolder : new File(baseFolder, path.replace("/", File.separator));
+
+        if (!targetFolder.exists() || !targetFolder.isDirectory()) {
+            return itemList; // Return empty list if path doesn't exist
+        }
+
+        File[] files = targetFolder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    // Check if the directory is empty (has no .iv files or subfolders)
+                    File[] innerFiles = file.listFiles((dir, name) -> name.endsWith(".iv") || new File(dir, name).isDirectory());
+
+                    if (innerFiles == null || innerFiles.length == 0) {
+                        itemList.add(file.getName() + ".empty"); // Mark empty folders
+                    } else {
+                        itemList.add(file.getName() + ".folder"); // Add folder normally
+                    }
+                } else if (file.isFile() && file.getName().endsWith(".iv")) {
+                    itemList.add(file.getName()); // Keep .iv for files
+                }
+            }
+        }
+        return itemList;
+    }
+
+
 }
