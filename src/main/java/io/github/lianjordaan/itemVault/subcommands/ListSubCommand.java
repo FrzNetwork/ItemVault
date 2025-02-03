@@ -5,6 +5,7 @@ import io.github.lianjordaan.itemVault.ItemManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -63,7 +65,7 @@ public class ListSubCommand {
         }
 
         // Constants for pagination
-        int ITEMS_PER_PAGE = 5*9; // Adjust this to your preferred number of items per page
+        int ITEMS_PER_PAGE = 1*9; // Adjust this to your preferred number of items per page
         int totalItems = itemList.size();
         int totalPages = (int) Math.ceil((double) totalItems / ITEMS_PER_PAGE);
 
@@ -123,7 +125,7 @@ public class ListSubCommand {
 
                 PersistentDataContainer container = meta.getPersistentDataContainer();
                 container.set(new NamespacedKey(plugin, "open_folder"), PersistentDataType.STRING, path + itemName.replace(".folder", "") + "/");
-                container.set(new NamespacedKey(plugin, "page"), PersistentDataType.INTEGER, page);
+                container.set(new NamespacedKey(plugin, "page"), PersistentDataType.INTEGER, 1);
                 container.set(new NamespacedKey(plugin, "cancel_click"), PersistentDataType.BOOLEAN, true);
 
                 item.setItemMeta(meta);
@@ -154,6 +156,54 @@ public class ListSubCommand {
                 item.setItemMeta(meta);
             }
             inventory.setItem(i, item);
+        }
+
+        if (page != 1) {
+            ItemStack backButton = new ItemStack(Material.TIPPED_ARROW);
+            ItemMeta meta = backButton.getItemMeta();
+            PotionMeta potionMeta = (PotionMeta) meta;
+            potionMeta.setColor(Color.fromRGB(0xFF0000));
+            potionMeta.displayName(MiniMessage.miniMessage().deserialize("<!i><red>Previous Page"));
+
+            PersistentDataContainer container = potionMeta.getPersistentDataContainer();
+            container.set(new NamespacedKey(plugin, "open_folder"), PersistentDataType.STRING, path);
+            container.set(new NamespacedKey(plugin, "page"), PersistentDataType.INTEGER, page - 1);
+            container.set(new NamespacedKey(plugin, "cancel_click"), PersistentDataType.BOOLEAN, true);
+
+            backButton.setItemMeta(potionMeta);
+            inventory.setItem(0 + 5*9, backButton);
+        }
+
+        if (page < totalPages) {
+            ItemStack nextButton = new ItemStack(Material.TIPPED_ARROW);
+            ItemMeta meta = nextButton.getItemMeta();
+            PotionMeta potionMeta = (PotionMeta) meta;
+            potionMeta.setColor(Color.fromRGB(0x00FF00));
+            potionMeta.displayName(MiniMessage.miniMessage().deserialize("<!i><green>Next Page"));
+
+            PersistentDataContainer container = potionMeta.getPersistentDataContainer();
+            container.set(new NamespacedKey(plugin, "open_folder"), PersistentDataType.STRING, path);
+            container.set(new NamespacedKey(plugin, "page"), PersistentDataType.INTEGER, page + 1);
+            container.set(new NamespacedKey(plugin, "cancel_click"), PersistentDataType.BOOLEAN, true);
+
+            nextButton.setItemMeta(potionMeta);
+            inventory.setItem(8 + 5*9, nextButton);
+        }
+
+        if (!path.equals("/")) {
+            ItemStack backButton = new ItemStack(Material.SPECTRAL_ARROW);
+            ItemMeta meta = backButton.getItemMeta();
+            meta.displayName(MiniMessage.miniMessage().deserialize("<!i><red>Back"));
+
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            String newPath = path.substring(0, path.replaceAll("/[^/]*$", "").lastIndexOf("/"));
+            newPath = newPath + "/";
+            container.set(new NamespacedKey(plugin, "open_folder"), PersistentDataType.STRING, newPath);
+            container.set(new NamespacedKey(plugin, "page"), PersistentDataType.INTEGER, 1);
+            container.set(new NamespacedKey(plugin, "cancel_click"), PersistentDataType.BOOLEAN, true);
+
+            backButton.setItemMeta(meta);
+            inventory.setItem(4 + 5*9, backButton);
         }
 
         player.openInventory(inventory);
