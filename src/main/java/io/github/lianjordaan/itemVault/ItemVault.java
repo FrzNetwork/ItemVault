@@ -14,6 +14,8 @@ public final class ItemVault extends JavaPlugin {
         this.getCommand("itemvault").setExecutor(new MultiItemsCommand(this));
         // register events
         this.getServer().getPluginManager().registerEvents(new PlayerInventoryClickEvent(this), this);
+        // register tab completion
+        this.getCommand("itemvault").setTabCompleter(new MultiItemsTabCompletion(this));
     }
 
     @Override

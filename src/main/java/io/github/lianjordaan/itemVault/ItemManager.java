@@ -1,5 +1,6 @@
 package io.github.lianjordaan.itemVault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,7 +22,7 @@ public class ItemManager {
     // Save the item to a file
     public boolean saveItem(ItemStack item, String id) {
         // Replace "/" with the file separator and build the folder path
-        String filePath = plugin.getDataFolder() + File.separator + "items" + File.separator + id.replace("/", File.separator) + ".iv";
+        String filePath = plugin.getDataFolder() + File.separator + "items" + File.separator + id.replaceAll("/", File.separator) + ".iv";
 
         try {
             // Create necessary directories
@@ -40,7 +41,7 @@ public class ItemManager {
 
             return true;
         } catch (IOException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             return false;
         }
     }
@@ -110,6 +111,33 @@ public class ItemManager {
             }
         }
         return itemList;
+    }
+
+    public List<String> getAllItemsList() {
+        List<String> itemList = new ArrayList<>();
+        File baseFolder = new File(plugin.getDataFolder(), "items");
+
+        if (!baseFolder.exists() || !baseFolder.isDirectory()) {
+            return itemList; // Return empty list if no items exist
+        }
+
+        // Recursively collect all items
+        collectItemsRecursively(baseFolder, "", itemList);
+        return itemList;
+    }
+
+    private void collectItemsRecursively(File folder, String pathPrefix, List<String> itemList) {
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    collectItemsRecursively(file, pathPrefix + file.getName() + "/", itemList);
+                } else if (file.isFile() && file.getName().endsWith(".iv")) {
+                    String itemName = file.getName().substring(0, file.getName().length() - 3); // Remove ".iv"
+                    itemList.add(pathPrefix + itemName);
+                }
+            }
+        }
     }
 
 

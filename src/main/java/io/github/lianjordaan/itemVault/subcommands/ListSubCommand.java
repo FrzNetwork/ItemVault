@@ -65,7 +65,7 @@ public class ListSubCommand {
         }
 
         // Constants for pagination
-        int ITEMS_PER_PAGE = 1*9; // Adjust this to your preferred number of items per page
+        int ITEMS_PER_PAGE = 5*9; // Adjust this to your preferred number of items per page
         int totalItems = itemList.size();
         int totalPages = (int) Math.ceil((double) totalItems / ITEMS_PER_PAGE);
 
