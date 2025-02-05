@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultiItemsTabCompletion implements TabCompleter {
@@ -15,20 +16,37 @@ public class MultiItemsTabCompletion implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            return List.of("add", "delete", "give", "get", "list", "reload");
+            completions.addAll(List.of("add", "delete", "give", "get", "list", "reload"));
         } else if (args.length == 2) {
             switch (args[0]) {
                 case "delete":
-                    return new ItemManager(plugin).getAllItemsList();
                 case "get":
                 case "give":
-                    return new ItemManager(plugin).getAllItemsList();
-                default:
-                    return List.of();
+                    completions.addAll(new ItemManager(plugin).getAllItemsList());
+                    break;
+                case "add":
+                    completions.addAll(new ItemManager(plugin).getAllItemFolders()); // Use new function
+                    break;
             }
-        } else {
-            return List.of();
         }
+
+        // Return matching completions (filter by user input)
+        return filterCompletions(completions, args);
+    }
+
+
+
+    // Filters completions based on user input
+    private List<String> filterCompletions(List<String> completions, String[] args) {
+        String currentInput = args[args.length - 1].toLowerCase();
+        List<String> filtered = new ArrayList<>();
+        for (String completion : completions) {
+            if (completion.toLowerCase().startsWith(currentInput)) {
+                filtered.add(completion);
+            }
+        }
+        return filtered;
     }
 }

@@ -140,5 +140,36 @@ public class ItemManager {
         }
     }
 
+    public List<String> getAllItemFolders() {
+        List<String> folderList = new ArrayList<>();
+        File baseFolder = new File(plugin.getDataFolder(), "items");
+
+        if (baseFolder.exists() && baseFolder.isDirectory()) {
+            collectFolders(baseFolder, "", folderList);
+        }
+
+        return folderList;
+    }
+
+    // Recursive function to collect non-empty folders
+    private void collectFolders(File folder, String relativePath, List<String> folderList) {
+        File[] files = folder.listFiles();
+        if (files == null) return;
+
+        boolean hasIVFiles = false;
+        for (File file : files) {
+            if (file.isDirectory()) {
+                collectFolders(file, relativePath + file.getName() + "/", folderList);
+            } else if (file.isFile() && file.getName().endsWith(".iv")) {
+                hasIVFiles = true;
+            }
+        }
+
+        if (hasIVFiles) {
+            folderList.add(relativePath.isEmpty() ? "/" : relativePath);
+        }
+    }
+
+
 
 }
