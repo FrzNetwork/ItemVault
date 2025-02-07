@@ -24,10 +24,10 @@ public class MultiItemsTabCompletion implements TabCompleter {
                 case "delete":
                 case "get":
                 case "give":
-                    completions.addAll(new ItemManager(plugin).getAllItemsList());
+                    completions.addAll(new ItemManager().getAllItemsList());
                     break;
                 case "add":
-                    completions.addAll(new ItemManager(plugin).getAllItemFolders()); // Use new function
+                    completions.addAll(new ItemManager().getAllItemFolders()); // Use new function
                     break;
             }
         }

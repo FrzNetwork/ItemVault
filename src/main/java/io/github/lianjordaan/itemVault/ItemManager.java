@@ -13,11 +13,7 @@ import java.util.List;
 
 public class ItemManager {
 
-    private final JavaPlugin plugin;
-
-    public ItemManager(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
+    private final ItemVault plugin = ItemVault.getPlugin(ItemVault.class);
 
     // Save the item to a file
     public boolean saveItem(ItemStack item, String id) {

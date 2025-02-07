@@ -56,7 +56,7 @@ public class ListSubCommand {
             }
         }
 
-        ItemManager itemManager = new ItemManager(plugin);
+        ItemManager itemManager = new ItemManager();
         List<String> itemList = itemManager.getItemList(path);
 
         if (itemList.isEmpty()) {

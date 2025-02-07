@@ -22,7 +22,7 @@ public class DeleteSubCommand {
             return true;
         }
 
-        ItemManager itemManager = new ItemManager(plugin);
+        ItemManager itemManager = new ItemManager();
         String id = args[1];
         ItemStack item = itemManager.getItem(id);
 

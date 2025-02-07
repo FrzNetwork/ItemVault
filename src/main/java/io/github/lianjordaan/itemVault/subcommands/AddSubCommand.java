@@ -28,7 +28,7 @@ public class AddSubCommand {
         }
 
         Player player = (Player) sender;
-        ItemManager itemManager = new ItemManager(plugin);
+        ItemManager itemManager = new ItemManager();
         String id = args[1];
         ItemStack existingItemCheck = itemManager.getItem(id);
         ItemStack item = player.getInventory().getItemInMainHand();
